@@ -1,0 +1,23 @@
+# Ce plan est payant : vérifier le tarif affiché par Render avant de déployer.
+services:
+  - type: web
+    name: odoo-chatgpt
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.lock
+    startCommand: uvicorn odoo_bridge.app:app --host 0.0.0.0 --port $PORT --no-access-log
+    healthCheckPath: /health
+    autoDeploy: false
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.14
+      - key: ODOO_URL
+        value: https://odooo.elneo.com
+      - key: ODOO_DB
+        value: odoo17
+      - key: ODOO_LOGIN
+        sync: false
+      - key: ODOO_API_KEY
+        sync: false
+      - key: CONNECTOR_API_KEY
+        generateValue: true
